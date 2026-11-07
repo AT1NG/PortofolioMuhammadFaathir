@@ -1,0 +1,64 @@
+---
+import { contributions as c } from '../data/contributions';
+interface Props { eyebrow: string; title: string; total: string; less: string; more: string; link: string; snapshot: string; months: string[]; locale: string; label: string; one: string; many: string; none: string }
+const { eyebrow, title, total, less, more, link, snapshot, months, locale, label, one, many, none } = Astro.props;
+
+// Week columns (Sunday to Saturday), like GitHub's own graph. Static: zero JS.
+const day = (s: string) => new Date(s + 'T00:00:00Z');
+const iso = (d: Date) => d.toISOString().slice(0, 10);
+const fmt = new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+const level = (n: number) => (n === 0 ? 0 : n < 5 ? 1 : n < 10 ? 2 : n < 17 ? 3 : 4);
+const cells: { date: string; n: number; level: number; text: string }[] = [];
+for (let d = day(c.from); d <= day(c.to); d.setUTCDate(d.getUTCDate() + 1)) {
+  const date = iso(d); const n = c.days[date] ?? 0;
+  cells.push({ date, n, level: level(n), text: `${n === 0 ? none : `${n} ${n === 1 ? one : many}`}, ${fmt.format(d)}` });
+}
+const sum = cells.reduce((a, x) => a + x.n, 0);
+const weeks = Math.ceil(cells.length / 7);
+
+// Month labels: put each month over the first week column that starts in that month.
+const labels: { col: number; text: string }[] = [];
+let prev = -1;
+for (let w = 0; w < weeks; w++) {
+  const m = day(cells[w * 7].date).getUTCMonth();
+  if (m !== prev) { if (w + 2 <= weeks || labels.length === 0) labels.push({ col: w + 1, text: months[m] }); prev = m; }
+}
+const url = `https://github.com/${c.username}`;
+---
+<section id="contributions" class="section !pt-0" aria-labelledby="contrib-h">
+  <div class="container-x">
+    <p class="eyebrow">{eyebrow}</p>
+    <div class="mt-3 flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
+      <h2 id="contrib-h" class="h2">{title}</h2>
+      <p class="text-lg font-medium text-ink-2"><span class="font-display text-3xl font-bold tabular-nums text-ink">{sum}</span> {total}</p>
+    </div>
+    <div class="card mt-8 p-5 sm:p-7">
+      <div class="cg-scroll overflow-x-auto pb-2" tabindex="0" role="region" aria-label={label}>
+        <div class="cg" style={`--weeks:${weeks}`} role="img" aria-label={`${sum} ${total}`}>
+          <div class="cg-months" aria-hidden="true">{labels.map((l) => <span style={`grid-column:${l.col}`}>{l.text}</span>)}</div>
+          <div class="cg-grid" aria-hidden="true">{cells.map((x) => <i class={`cg-c l${x.level}`} title={x.text}></i>)}</div>
+        </div>
+      </div>
+      <div class="mt-4 flex flex-wrap items-center justify-between gap-3 text-sm text-muted">
+        <p>{snapshot}</p>
+        <div class="flex items-center gap-1.5" style="--s:0.8rem" aria-hidden="true"><span>{less}</span>{[0, 1, 2, 3, 4].map((l) => <i class={`cg-c l${l}`}></i>)}<span>{more}</span></div>
+      </div>
+    </div>
+    <a href={url} target="_blank" rel="noopener noreferrer" class="btn btn-ghost mt-6">{link}<span class="sr-only"> (new tab)</span></a>
+  </div>
+</section>
+<script>
+  // Narrow screens: start at the most recent weeks.
+  document.querySelectorAll<HTMLElement>('.cg-scroll').forEach((el) => { el.scrollLeft = el.scrollWidth; });
+</script>
+<style>
+  .cg { --s: 0.8rem; --g: 3px; width: max-content; min-width: 100%; }
+  .cg-months { display: grid; grid-template-columns: repeat(var(--weeks), var(--s)); column-gap: var(--g); height: 1.3rem; font-size: 0.75rem; color: var(--color-muted); white-space: nowrap; }
+  .cg-grid { display: grid; grid-auto-flow: column; grid-template-rows: repeat(7, var(--s)); grid-template-columns: repeat(var(--weeks), var(--s)); gap: var(--g); }
+  .cg-c { display: block; width: var(--s); height: var(--s); border-radius: 3px; background: var(--color-paper-2); }
+  .cg-c.l1 { background: color-mix(in srgb, var(--color-accent) 30%, var(--color-paper-2)); }
+  .cg-c.l2 { background: color-mix(in srgb, var(--color-accent) 55%, var(--color-paper-2)); }
+  .cg-c.l3 { background: var(--color-accent); }
+  .cg-c.l4 { background: var(--color-accent-ink); }
+  @media (min-width: 1024px) { .cg { --s: 1.05rem; --g: 4px; } }
+</style>

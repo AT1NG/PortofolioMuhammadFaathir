@@ -1,0 +1,17 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getDict } from '../lib/i18n';
+import { getAchievements } from '../lib/content';
+import { lp, type Lang } from '../lib/url';
+const { lang } = Astro.props as { lang: Lang };
+const d = getDict(lang);
+const achievements = await getAchievements(lang);
+---
+<Layout lang={lang} title={`${d.meta.notFoundTitle} · Faathir`} description={d.meta.notFoundText} path="404/" nav={[]} achievements={achievements} noindex>
+  <main id="main" class="container-x grid min-h-[100dvh] place-content-center gap-6 py-32 text-center">
+    <p class="font-display font-extrabold text-accent" style="font-size: clamp(6rem, 25vw, 16rem); line-height: .8">404</p>
+    <h1 class="font-display text-4xl font-bold">{d.meta.notFoundTitle}</h1>
+    <p class="lead mx-auto">{d.meta.notFoundText}</p>
+    <p><a class="btn btn-solid" href={lp(lang, '')}>{d.meta.backHome}</a></p>
+  </main>
+</Layout>

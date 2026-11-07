@@ -1,0 +1,117 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Footer from './islands/Footer';
+import Gallery from './islands/Gallery';
+import { ProofButton } from './islands/ModalHost';
+import { Pic, Icon } from './islands/shared';
+import { getDict, } from '../lib/i18n';
+import { getAchievements, getProfile, getProjectDetail } from '../lib/content';
+import { lp, type Lang } from '../lib/url';
+import { achievements as rawAch } from '../data';
+
+interface Props { lang: Lang; slug: string }
+const { lang, slug } = Astro.props;
+const d = getDict(lang);
+const [detail, achievements, profile] = await Promise.all([getProjectDetail(slug, lang), getAchievements(lang), getProfile(lang)]);
+const c = detail.card;
+const funded = achievements.find((a) => a.project?.slug === slug);
+const nav = [
+  { id: 'about', label: d.nav.about }, { id: 'projects', label: d.nav.projects }, { id: 'experience', label: d.nav.experience },
+  { id: 'skills', label: d.nav.skills }, { id: 'contact', label: d.nav.contact },
+];
+const raw = detail.gallery;
+const sections = [
+  { k: 'problem', title: d.project.problem, body: detail.problem },
+  { k: 'role', title: d.project.role, body: detail.role },
+  { k: 'solution', title: d.project.solution, body: detail.solution },
+  { k: 'lessons', title: d.project.lessons, body: detail.lessons },
+].filter((s) => s.body);
+const L = detail.links;
+const s = profile.socials;
+const jsonLd = { '@context': 'https://schema.org', '@type': 'CreativeWork', name: c.title, description: c.description, author: { '@type': 'Person', name: profile.name }, dateCreated: String(c.year), keywords: c.tech.join(', ') };
+---
+<Layout lang={lang} title={d.meta.projectTitle.replace('{name}', c.title)} description={c.description} path={`projects/${slug}/`} nav={nav} achievements={achievements} jsonLd={jsonLd}>
+  <main id="main" class="container-x pb-24" style="padding-top: calc(7rem + env(safe-area-inset-top))">
+    <a href={lp(lang, '#projects')} class="tap inline-flex items-center gap-2 font-semibold"><Icon name="left" className="h-5 w-5" />{d.project.back}</a>
+    <header class="mt-6">
+      <p class="eyebrow">{c.category} · {c.year}</p>
+      <h1 class="mt-3 font-display font-extrabold" style="font-size: clamp(2.6rem, 1rem + 8vw, 8rem); line-height: .95">{c.title}</h1>
+      <p class="lead mt-5">{c.description}</p>
+      {c.placeholder && <p class="mt-4 inline-block rounded-xl bg-accent-soft px-4 py-2 text-sm font-semibold">{d.project.placeholderNote}</p>}
+    </header>
+
+    <div class="mt-10 overflow-hidden rounded-[var(--radius-card)] border border-line bg-paper-2" style="aspect-ratio: 16 / 10">
+      {detail.hero ? <Pic img={detail.hero} alt="" eager sizes="(min-width:1280px) 1200px, 100vw" /> : <div class="ph" style={`background:${c.brandColor}`} role="img" aria-label={c.title}><span aria-hidden="true" style="font-size:clamp(3rem,12vw,8rem)">{c.title.slice(0, 2).toUpperCase()}</span></div>}
+    </div>
+
+    {detail.features.length > 0 && (
+      <section class="mt-16" aria-labelledby="feat-h">
+        <h2 id="feat-h" class="font-display text-3xl font-bold">{d.project.features}</h2>
+        <ul class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {detail.features.map((f) => (
+            <li class="card p-6"><h3 class="font-display text-xl font-bold leading-snug">{f.title}</h3><p class="mt-2 text-ink-2">{f.body}</p></li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {sections.length > 0 && (
+      <div class="mt-20 grid gap-10 md:grid-cols-2">
+        {sections.map((sec) => (
+          <section>
+            <h2 class="font-display text-3xl font-bold">{sec.title}</h2>
+            <p class="mt-3 max-w-[60ch] text-ink-2">{sec.body}</p>
+          </section>
+        ))}
+        {detail.results.length > 0 && (
+          <section>
+            <h2 class="font-display text-3xl font-bold">{d.project.results}</h2>
+            <ul class="mt-3 list-disc space-y-1 pl-5 text-ink-2">{detail.results.map((r) => <li>{r}</li>)}</ul>
+          </section>
+        )}
+      </div>
+    )}
+
+    <section class="mt-16" aria-labelledby="tech-h">
+      <h2 id="tech-h" class="font-display text-2xl font-bold">{d.project.tech}</h2>
+      <ul class="mt-4 flex flex-wrap gap-2">{c.tech.map((t) => <li class="chip">{t}</li>)}</ul>
+      {(L.live || L.github || L.playStore || L.video) && (
+        <div class="mt-8 flex flex-wrap gap-3">
+          {L.live && <a class="btn btn-solid" href={L.live} target="_blank" rel="noopener noreferrer">{d.project.live}<Icon name="external" /></a>}
+          {L.playStore && <a class="btn btn-solid" href={L.playStore} target="_blank" rel="noopener noreferrer">{d.project.playStore}<Icon name="external" /></a>}
+          {L.github && <a class="btn btn-ghost" href={L.github} target="_blank" rel="noopener noreferrer"><Icon name="github" />{d.project.github}</a>}
+          {L.video && <a class="btn btn-ghost" href={L.video} target="_blank" rel="noopener noreferrer"><Icon name="play" />{d.project.video}</a>}
+        </div>
+      )}
+    </section>
+
+    {funded && (
+      <section class="card mt-16 p-6 sm:p-10" aria-labelledby="funded-h">
+        <p class="eyebrow">{funded.badge}</p>
+        <h2 id="funded-h" class="mt-3 font-display text-3xl font-bold sm:text-5xl">{d.project.fundedTitle}</h2>
+        <p class="mt-3 max-w-[60ch] text-ink-2">{funded.description}</p>
+        {funded.gallery.length > 0 && (
+          <ul class="mt-8 grid gap-3 sm:grid-cols-3">
+            {funded.gallery.map((g) => <li class="aspect-[4/3] overflow-hidden rounded-xl border border-line bg-paper-2"><Pic img={g} alt={g.alt} sizes="(min-width:640px) 33vw, 100vw" pos="top" /></li>)}
+          </ul>
+        )}
+        {funded.proof.length > 0 && <div class="mt-6 grid gap-3 sm:max-w-xl">{funded.proof.map((p) => <ProofButton p={p} t={d.proof} />)}</div>}
+      </section>
+    )}
+
+    {raw.length > 0 && <Gallery client:visible images={raw} title={d.project.gallery} hint={d.project.galleryHint} t={d.gallery} />}
+
+    <nav aria-label="Projects" class="mt-24 grid gap-4 sm:grid-cols-2">
+      <a href={lp(lang, `projects/${detail.prev.slug}/`)} class="card group flex flex-col gap-1 p-6 no-underline">
+        <span class="text-sm font-semibold text-muted">← {d.project.prev}</span>
+        <span class="font-display text-2xl font-bold">{detail.prev.title}</span>
+      </a>
+      <a href={lp(lang, `projects/${detail.next.slug}/`)} class="card group flex flex-col gap-1 p-6 text-right no-underline">
+        <span class="text-sm font-semibold text-muted">{d.project.next} →</span>
+        <span class="font-display text-2xl font-bold">{detail.next.title}</span>
+      </a>
+    </nav>
+  </main>
+  <Footer client:visible name={profile.shortName} rights={d.footer.rights} built={d.footer.builtWith} backToTop={d.footer.backToTop} year={new Date().getFullYear()}
+    socials={[{ label: 'GitHub', href: s.github, icon: 'github' }, { label: 'LinkedIn', href: s.linkedin, icon: 'linkedin' }, { label: 'Instagram', href: s.instagram, icon: 'instagram' }]} githubLabel="GitHub" />
+</Layout>

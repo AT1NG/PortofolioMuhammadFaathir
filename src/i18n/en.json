@@ -1,0 +1,182 @@
+{
+  "meta": {
+    "siteName": "Faathir · Portfolio",
+    "title": "Muhammad Faathir · Odoo & Flutter Developer",
+    "description": "Portfolio of Muhammad Faathir: Informatics student, backend & Flutter developer, chair of HMIF and PKM grant recipient. Open to internships, jobs and freelance work.",
+    "projectTitle": "{name} · Project by Faathir",
+    "notFoundTitle": "Page not found",
+    "notFoundText": "That page does not exist, or it moved. Let's get you back.",
+    "backHome": "Back to home"
+  },
+  "a11y": {
+    "skip": "Skip to content",
+    "mainNav": "Main navigation",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "language": "Language",
+    "switchTo": "Switch to Bahasa Indonesia",
+    "opensNewTab": "(opens in a new tab)",
+    "externalLink": "External link",
+    "backToTop": "Back to top",
+    "loading": "Loading"
+  },
+  "nav": {
+    "about": "About",
+    "projects": "Projects",
+    "experience": "Experience",
+    "achievements": "Achievements",
+    "skills": "Skills",
+    "testimonials": "Testimonials",
+    "contact": "Contact"
+  },
+  "hero": {
+    "hi": "Hi, I'm Faathir.",
+    "headline": ["Muhammad", "Faathir."],
+    "prefix": "",
+    "viewProjects": "View projects",
+    "contact": "Contact me",
+    "portraitAlt": "Portrait of Faathir in a maroon HMIF jacket",
+    "badges": "Highlights",
+    "scroll": "Scroll"
+  },
+  "marquee": { "label": "Tools and technologies I work with" },
+  "about": {
+    "eyebrow": "About",
+    "title": "A bit about me",
+    "photoAlt": "Faathir standing in front of a white wall",
+    "tiles": {
+      "university": "University",
+      "chair": "Leadership",
+      "focus": "Focus",
+      "grant": "Recognition",
+      "location": "Based in"
+    }
+  },
+  "projects": {
+    "eyebrow": "Selected work",
+    "title": "Projects",
+    "subtitle": "Products I designed, built and shipped, from campus systems to mobile apps.",
+    "filterLabel": "Filter projects by category",
+    "filters": { "all": "All", "ERP": "ERP", "Mobile": "Mobile", "Web": "Web", "IoT": "IoT", "Other": "Other" },
+    "featured": "Featured",
+    "more": "More projects",
+    "viewProject": "View project",
+    "fundedBy": "Funded by PKM {year}",
+    "empty": "No projects in this category yet.",
+    "placeholderBadge": "Placeholder"
+  },
+  "project": {
+    "back": "All projects",
+    "breadcrumb": "Project",
+    "problem": "The problem",
+    "role": "My role",
+    "solution": "The solution",
+    "features": "Key features",
+    "results": "Results",
+    "lessons": "What I learned",
+    "tech": "Built with",
+    "links": "Links",
+    "live": "Live site",
+    "github": "Source on GitHub",
+    "playStore": "Get it on Google Play",
+    "video": "Watch demo",
+    "gallery": "Screens",
+    "galleryHint": "Swipe or use arrow keys",
+    "prev": "Previous project",
+    "next": "Next project",
+    "fundedTitle": "Funded by PKM",
+    "fundedText": "This project received funding from the Pekan Kreativitas Mahasiswa (PKM) programme.",
+    "year": "Year",
+    "category": "Category",
+    "placeholderNote": "This is a placeholder: real material is on its way."
+  },
+  "experience": {
+    "eyebrow": "Journey",
+    "title": "Experience",
+    "subtitle": "Work, leadership, committees, talks and recognition.",
+    "filterLabel": "Filter experience by type",
+    "filters": { "all": "All", "work": "Work", "organization": "Organization", "committee": "Committee", "speaking": "Speaking", "achievement": "Achievement" },
+    "types": { "work": "Work", "organization": "Organization", "committee": "Committee", "speaking": "Speaking", "achievement": "Achievement" },
+    "present": "Present",
+    "topic": "Topic",
+    "audience": "Audience",
+    "visit": "Visit website",
+    "openDetails": "View details and proof",
+    "speakingTitle": "Speaking & talks",
+    "speakingHint": "Drag or swipe to browse",
+    "photos": "Photos"
+  },
+  "achievements": {
+    "eyebrow": "Recognition",
+    "title": "Achievements & Certifications",
+    "types": { "grant": "Grant", "award": "Award", "competition": "Competition", "certification": "Certification", "ip": "Intellectual property" },
+    "certificate": "Certificate",
+    "viewCertificate": "View certificate"
+  },
+  "proof": {
+    "verified": "Verified",
+    "view": "View proof",
+    "role": "My role",
+    "issuer": "Issued by",
+    "year": "Year",
+    "gallery": "Photos",
+    "close": "Close",
+    "dialogLabel": "Achievement details",
+    "viewPhoto": "Open photo {n} of {total}",
+    "domain": "on {domain}",
+    "platforms": { "instagram": "Instagram", "website": "Website", "pdf": "PDF document", "other": "External link" }
+  },
+  "gallery": {
+    "label": "Image gallery",
+    "prev": "Previous image",
+    "next": "Next image",
+    "goTo": "Go to image {n}",
+    "open": "Open image {n} fullscreen",
+    "close": "Close fullscreen view",
+    "counter": "{n} of {total}"
+  },
+  "skills": {
+    "eyebrow": "Toolbox",
+    "title": "Skills",
+    "groups": { "erp": "ERP", "mobile": "Mobile", "web": "Web", "iot": "IoT", "devops": "DevOps & tools" }
+  },
+  "contributions": {
+    "eyebrow": "Code",
+    "title": "GitHub activity",
+    "total": "contributions in the last year",
+    "less": "Less",
+    "more": "More",
+    "link": "View GitHub profile",
+    "snapshot": "Snapshot from my GitHub profile, 7 Nov 2026.",
+    "label": "GitHub contribution graph, scrollable",
+    "one": "contribution",
+    "many": "contributions",
+    "none": "No contributions"
+  },
+  "testimonials": {
+    "eyebrow": "Kind words",
+    "title": "Testimonials",
+    "prev": "Previous testimonial",
+    "next": "Next testimonial",
+    "goTo": "Show testimonial {n}"
+  },
+  "contact": {
+    "eyebrow": "Contact",
+    "title": "Let's work together",
+    "subtitle": "Open to internships, jobs and freelance projects. Say hi.",
+    "email": "Email",
+    "whatsapp": "WhatsApp",
+    "linkedin": "LinkedIn",
+    "github": "GitHub",
+    "instagram": "Instagram",
+    "copy": "Copy email",
+    "copied": "Email copied to clipboard",
+    "copyFailed": "Could not copy. Please copy it manually."
+  },
+  "footer": {
+    "rights": "All rights reserved.",
+    "builtWith": "Built with Astro & Motion",
+    "backToTop": "Back to top"
+  },
+  "months": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+}

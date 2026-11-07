@@ -1,0 +1,26 @@
+---
+interface Props { groups: { key: string; label: string; items: string[] }[]; eyebrow: string; title: string }
+const { groups, eyebrow, title } = Astro.props;
+---
+<section id="skills" class="section" aria-labelledby="skills-h">
+  <div class="container-x">
+    <p class="eyebrow">{eyebrow}</p>
+    <h2 id="skills-h" class="h2">{title}</h2>
+    <ul class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {groups.map((g) => (
+        <li class="card skill-card p-6">
+          <h3 class="font-display text-2xl font-bold">{g.label}</h3>
+          <ul class="mt-4 flex flex-wrap gap-2">{g.items.map((s) => <li class="chip">{s}</li>)}</ul>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+<style>
+  /* CSS scroll-driven stagger (zero JS); browsers without support just show the cards */
+  @supports (animation-timeline: view()) {
+    .skill-card { animation: rise forwards linear; animation-timeline: view(); animation-range: entry 0% entry 55%; }
+    @keyframes rise { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
+  }
+  @media (prefers-reduced-motion: reduce) { .skill-card { animation: none; } }
+</style>

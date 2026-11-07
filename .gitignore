@@ -1,0 +1,38 @@
+# build output
+dist/
+.astro/
+node_modules/
+
+# logs / OS / editor
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# ── secrets (never commit) ──
+.env
+.env.*
+!.env.example
+*.jks
+*.keystore
+*.p12
+*.pfx
+*.pem
+*.key
+key.properties
+google-services.json
+GoogleService-Info.plist
+serviceAccount*.json
+secrets/
+*.sqlite
+*.db
+
+# local tooling
+.work/
+playwright-report/
+test-results/
+.lighthouseci/
+.work-dev.log

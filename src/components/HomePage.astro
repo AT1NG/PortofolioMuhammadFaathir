@@ -1,0 +1,89 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Marquee from './Marquee.astro';
+import Skills from './Skills.astro';
+import Contributions from './Contributions.astro';
+import Hero from './islands/Hero';
+import About from './islands/About';
+import Projects from './islands/Projects';
+import Experience from './islands/Experience';
+import AchievementsGrid from './islands/AchievementsGrid';
+import Testimonials from './islands/Testimonials';
+import Contact from './islands/Contact';
+import Footer from './islands/Footer';
+import { getDict } from '../lib/i18n';
+import { getAchievements, getProfile, getProjectCards, getTestimonials, getTimeline } from '../lib/content';
+import { lp, type Lang } from '../lib/url';
+import { cleanUrl } from '../lib/url';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = getDict(lang);
+const [profile, achievements, testimonials, cards] = await Promise.all([getProfile(lang), getAchievements(lang), getTestimonials(lang), getProjectCards(lang)]);
+const timeline = await getTimeline(lang, achievements);
+
+const showAch = achievements.length >= 3;
+const nav = [
+  { id: 'about', label: d.nav.about },
+  { id: 'projects', label: d.nav.projects },
+  { id: 'experience', label: d.nav.experience },
+  ...(showAch ? [{ id: 'achievements', label: d.nav.achievements }] : []),
+  { id: 'skills', label: d.nav.skills },
+  ...(testimonials.length ? [{ id: 'testimonials', label: d.nav.testimonials }] : []),
+  { id: 'contact', label: d.nav.contact },
+];
+const grant = achievements.find((a) => a.highlight);
+const s = profile.socials;
+const contactLinks = [
+  { key: 'email', label: d.contact.email, value: profile.email, href: `mailto:${profile.email}`, icon: 'mail' as const },
+  { key: 'whatsapp', label: d.contact.whatsapp, value: profile.phone.display, href: cleanUrl(profile.phone.wa), icon: 'whatsapp' as const },
+  { key: 'linkedin', label: d.contact.linkedin, value: 'muhammad-faathir', href: s.linkedin, icon: 'linkedin' as const },
+  { key: 'github', label: d.contact.github, value: '@AT1NG', href: s.github, icon: 'github' as const },
+  { key: 'instagram', label: d.contact.instagram, value: '@akubukancinaa', href: s.instagram, icon: 'instagram' as const },
+];
+const jsonLd = {
+  '@context': 'https://schema.org', '@type': 'Person', name: profile.name, alternateName: profile.shortName,
+  email: `mailto:${profile.email}`, jobTitle: profile.title, description: d.meta.description,
+  alumniOf: { '@type': 'CollegeOrUniversity', name: 'Universitas Muhammadiyah Bandung' },
+  worksFor: { '@type': 'Organization', name: 'PT Tenumba Sinergi Informatika', url: 'https://tenumba.com' },
+  sameAs: [s.linkedin, s.github, s.instagram], knowsAbout: profile.stack, inLanguage: lang,
+};
+---
+<Layout lang={lang} title={d.meta.title} description={d.meta.description} isHome nav={nav} achievements={achievements} jsonLd={jsonLd}>
+  <main id="main">
+    <Hero client:load name={profile.name} shortName={profile.shortName} roles={profile.roles} portrait={profile.portrait}
+      portraitAlt={d.hero.portraitAlt} headline={d.hero.headline} hi={d.hero.hi} prefix={d.hero.prefix} intro={profile.intro}
+      cta={{ projects: d.hero.viewProjects, contact: d.hero.contact }}
+      badges={achievements.filter((a) => a.highlight).map((a) => ({ id: a.id, badge: a.badge }))}
+      badgesLabel={d.hero.badges} scroll={d.hero.scroll} hrefs={{ projects: '#projects', contact: '#contact' }} />
+
+    <Marquee items={profile.stack} label={d.marquee.label} />
+
+    <About client:visible eyebrow={d.about.eyebrow} title={d.about.title} intro={profile.intro} photo={profile.aboutPhoto} photoAlt={d.about.photoAlt} name={profile.name}
+      tiles={{ university: profile.facts.university, chair: profile.facts.chair, focus: profile.facts.focus, location: profile.location,
+        grant: grant ? { id: grant.id, text: grant.badge } : undefined }}
+      labels={d.about.tiles} />
+
+    <Projects client:visible cards={cards} base={lp(lang, 'projects/')} eyebrow={d.projects.eyebrow} title={d.projects.title} subtitle={d.projects.subtitle}
+      t={{ filterLabel: d.projects.filterLabel, filters: d.projects.filters, featured: d.projects.featured, more: d.projects.more, view: d.projects.viewProject, fundedBy: d.projects.fundedBy, empty: d.projects.empty, placeholder: d.projects.placeholderBadge }} />
+
+    <Experience client:visible items={timeline} eyebrow={d.experience.eyebrow} title={d.experience.title} subtitle={d.experience.subtitle}
+      t={{ filterLabel: d.experience.filterLabel, filters: d.experience.filters, types: d.experience.types, topic: d.experience.topic, audience: d.experience.audience, visit: d.experience.visit,
+        openDetails: d.experience.openDetails, speakingTitle: d.experience.speakingTitle, speakingHint: d.experience.speakingHint, placeholder: d.projects.placeholderBadge, photos: d.experience.photos }}
+      g={d.gallery} />
+
+    {showAch && <AchievementsGrid client:visible items={achievements} eyebrow={d.achievements.eyebrow} title={d.achievements.title}
+      t={{ certificate: d.achievements.certificate, viewCertificate: d.achievements.viewCertificate, verified: d.proof.verified, details: d.proof.view }} g={d.gallery} />}
+
+    <Skills groups={profile.skills} eyebrow={d.skills.eyebrow} title={d.skills.title} />
+
+    <Contributions eyebrow={d.contributions.eyebrow} title={d.contributions.title} total={d.contributions.total} less={d.contributions.less} more={d.contributions.more} link={d.contributions.link}
+      snapshot={d.contributions.snapshot} months={d.months} locale={lang === 'id' ? 'id-ID' : 'en-GB'} label={d.contributions.label} one={d.contributions.one} many={d.contributions.many} none={d.contributions.none} />
+
+    {testimonials.length > 0 && <Testimonials client:visible items={testimonials} eyebrow={d.testimonials.eyebrow} title={d.testimonials.title} t={d.testimonials} />}
+
+    <Contact client:visible eyebrow={d.contact.eyebrow} title={d.contact.title} subtitle={d.contact.subtitle} email={profile.email} links={contactLinks} t={d.contact} />
+  </main>
+  <Footer client:visible name={profile.shortName} rights={d.footer.rights} built={d.footer.builtWith} backToTop={d.footer.backToTop} year={new Date().getFullYear()}
+    socials={[{ label: 'GitHub', href: s.github, icon: 'github' }, { label: 'LinkedIn', href: s.linkedin, icon: 'linkedin' }, { label: 'Instagram', href: s.instagram, icon: 'instagram' }]} githubLabel="GitHub" />
+</Layout>

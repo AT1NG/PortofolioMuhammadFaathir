@@ -1,0 +1,147 @@
+---
+import '../styles/global.css';
+import fontUrl from '@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-wght-normal.woff2?url';
+import { getDict } from '../lib/i18n';
+import { lp, withBase, type Lang } from '../lib/url';
+import { profile } from '../data';
+import Navbar from '../components/islands/Navbar';
+import ModalHost from '../components/islands/ModalHost';
+import type { AchievementL } from '../lib/content';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  /** path after the language prefix, e.g. "" (home) or "projects/protego/" */
+  path?: string;
+  isHome?: boolean;
+  nav: { id: string; label: string }[];
+  achievements: AchievementL[];
+  jsonLd?: object;
+  ogImage?: string;
+  noindex?: boolean;
+}
+const { lang, title, description, path = '', isHome = false, nav, achievements, jsonLd, ogImage = 'og.png', noindex = false } = Astro.props;
+const d = getDict(lang);
+const site = Astro.site!.origin;
+const abs = (p: string) => site + p;
+const canonical = abs(lp(lang, path));
+const alt = { en: abs(lp('en', path)), id: abs(lp('id', path)) };
+const og = abs(withBase(ogImage));
+const otherLang: Lang = lang === 'en' ? 'id' : 'en';
+const homeHref = lp(lang, '');
+---
+
+<!doctype html>
+<html lang={lang} class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#f6f3ec" />
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="canonical" href={canonical} />
+    {!noindex && <link rel="alternate" hreflang="en" href={alt.en} />}
+    {!noindex && <link rel="alternate" hreflang="id" href={alt.id} />}
+    {!noindex && <link rel="alternate" hreflang="x-default" href={alt.en} />}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={d.meta.siteName} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={og} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content={lang === 'id' ? 'id_ID' : 'en_US'} />
+    <meta property="og:locale:alternate" content={lang === 'id' ? 'en_US' : 'id_ID'} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={og} />
+
+    <link rel="icon" href={withBase('favicon.svg')} type="image/svg+xml" />
+    <link rel="icon" href={withBase('favicon-32.png')} sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href={withBase('apple-touch-icon.png')} />
+    <link rel="manifest" href={withBase('site.webmanifest')} />
+    <link rel="preload" href={fontUrl} as="font" type="font/woff2" crossorigin />
+
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+
+    <!-- first-paint scripts (tiny, inline, wrapped in try/catch) -->
+    {isHome && (
+      <script is:inline define:vars={{ base: withBase(''), isEn: lang === 'en' }}>
+        (function () {
+          var d = document.documentElement;
+          try {
+            // 1) first visit per session → short preloader (skipped for reduced motion)
+            if (!sessionStorage.getItem('pre') && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+              d.classList.add('preload'); sessionStorage.setItem('pre', '1');
+              setTimeout(function () { d.classList.remove('preload'); }, 850);
+            }
+          } catch (e) {}
+          try {
+            // 2) language: stored choice wins, otherwise browser language (English landing page only)
+            if (isEn) {
+              var s = localStorage.getItem('lang');
+              var l = (navigator.language || '').toLowerCase();
+              if (s === 'id' || (!s && l.indexOf('id') === 0)) location.replace(base + 'id/' + location.hash);
+            }
+          } catch (e) {}
+        })();
+      </script>
+    )}
+    <noscript>
+      <style>
+        [style*='opacity:0'] { opacity: 1 !important; transform: none !important; }
+        .word { opacity: 1 !important; }
+        #preloader { display: none !important; }
+      </style>
+    </noscript>
+    <style is:inline>
+      @media (prefers-reduced-motion: reduce) { [style*='opacity:0'] { opacity: 1 !important; transform: none !important; } .word { opacity: 1 !important; } }
+    </style>
+  </head>
+  <body>
+    <a href="#main" class="sr-only-focusable fixed left-4 top-4 z-[200] rounded-full bg-ink px-5 py-3 font-semibold text-paper">{d.a11y.skip}</a>
+
+    {isHome && (
+      <div id="preloader" aria-hidden="true">
+        <div class="pre-word"><span>{profile.initials}.</span></div>
+      </div>
+    )}
+
+    <Navbar
+      client:load
+      lang={lang}
+      isHome={isHome}
+      homeHref={homeHref}
+      items={nav}
+      altHref={lp(otherLang, path)}
+      otherLang={otherLang}
+      t={{ menuOpen: d.a11y.openMenu, menuClose: d.a11y.closeMenu, main: d.a11y.mainNav, language: d.a11y.language, switchTo: d.a11y.switchTo, contact: d.nav.contact }}
+      name={profile.shortName}
+    />
+
+    <slot />
+
+    <ModalHost client:idle achievements={achievements} t={d.proof} g={d.gallery} lang={lang} projectBase={lp(lang, 'projects/')} />
+
+    <script>
+      // Smooth scroll (Lenis): desktop + fine pointer only, never with reduced motion. Touch keeps native scrolling.
+      const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+      const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (fine && !reduced) {
+        const start = () =>
+          import('lenis').then(({ default: Lenis }) => {
+            const lenis = new Lenis({ lerp: 0.11, anchors: { offset: -72 } });
+            (window as unknown as { __lenis: unknown }).__lenis = lenis;
+            const raf = (t: number) => { lenis.raf(t); requestAnimationFrame(raf); };
+            requestAnimationFrame(raf);
+          });
+        'requestIdleCallback' in window ? requestIdleCallback(start, { timeout: 1500 }) : setTimeout(start, 400);
+      }
+    </script>
+  </body>
+</html>

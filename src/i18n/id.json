@@ -1,0 +1,182 @@
+{
+  "meta": {
+    "siteName": "Faathir · Portofolio",
+    "title": "Muhammad Faathir · Developer Odoo & Flutter",
+    "description": "Portofolio Muhammad Faathir: mahasiswa Teknik Informatika, developer ERP Odoo & Flutter, Ketua HMIF, dan penerima pendanaan PKM. Terbuka untuk magang, pekerjaan, dan proyek freelance.",
+    "projectTitle": "{name} · Proyek oleh Faathir",
+    "notFoundTitle": "Halaman tidak ditemukan",
+    "notFoundText": "Halaman itu tidak ada, atau sudah dipindahkan. Yuk kembali.",
+    "backHome": "Kembali ke beranda"
+  },
+  "a11y": {
+    "skip": "Lompat ke konten",
+    "mainNav": "Navigasi utama",
+    "openMenu": "Buka menu",
+    "closeMenu": "Tutup menu",
+    "language": "Bahasa",
+    "switchTo": "Ganti ke English",
+    "opensNewTab": "(terbuka di tab baru)",
+    "externalLink": "Tautan eksternal",
+    "backToTop": "Kembali ke atas",
+    "loading": "Memuat"
+  },
+  "nav": {
+    "about": "Tentang",
+    "projects": "Proyek",
+    "experience": "Pengalaman",
+    "achievements": "Prestasi",
+    "skills": "Keahlian",
+    "testimonials": "Testimoni",
+    "contact": "Kontak"
+  },
+  "hero": {
+    "hi": "Hai, saya Faathir.",
+    "headline": ["Muhammad", "Faathir."],
+    "prefix": "",
+    "viewProjects": "Lihat proyek",
+    "contact": "Hubungi saya",
+    "portraitAlt": "Potret Faathir memakai jaket maroon HMIF",
+    "badges": "Sorotan",
+    "scroll": "Gulir"
+  },
+  "marquee": { "label": "Alat dan teknologi yang saya gunakan" },
+  "about": {
+    "eyebrow": "Tentang",
+    "title": "Sedikit tentang saya",
+    "photoAlt": "Faathir berdiri di depan dinding putih",
+    "tiles": {
+      "university": "Kampus",
+      "chair": "Kepemimpinan",
+      "focus": "Fokus",
+      "grant": "Pengakuan",
+      "location": "Berbasis di"
+    }
+  },
+  "projects": {
+    "eyebrow": "Karya pilihan",
+    "title": "Proyek",
+    "subtitle": "Produk yang saya rancang, bangun, dan luncurkan, dari sistem kampus sampai aplikasi mobile.",
+    "filterLabel": "Filter proyek berdasarkan kategori",
+    "filters": { "all": "Semua", "ERP": "ERP", "Mobile": "Mobile", "Web": "Web", "IoT": "IoT", "Other": "Lainnya" },
+    "featured": "Unggulan",
+    "more": "Proyek lainnya",
+    "viewProject": "Lihat proyek",
+    "fundedBy": "Didanai PKM {year}",
+    "empty": "Belum ada proyek di kategori ini.",
+    "placeholderBadge": "Placeholder"
+  },
+  "project": {
+    "back": "Semua proyek",
+    "breadcrumb": "Proyek",
+    "problem": "Masalahnya",
+    "role": "Peran saya",
+    "solution": "Solusinya",
+    "features": "Fitur utama",
+    "results": "Hasil",
+    "lessons": "Yang saya pelajari",
+    "tech": "Dibangun dengan",
+    "links": "Tautan",
+    "live": "Situs langsung",
+    "github": "Kode di GitHub",
+    "playStore": "Dapatkan di Google Play",
+    "video": "Tonton demo",
+    "gallery": "Tampilan layar",
+    "galleryHint": "Geser atau pakai tombol panah",
+    "prev": "Proyek sebelumnya",
+    "next": "Proyek berikutnya",
+    "fundedTitle": "Didanai PKM",
+    "fundedText": "Proyek ini mendapat pendanaan dari program Pekan Kreativitas Mahasiswa (PKM).",
+    "year": "Tahun",
+    "category": "Kategori",
+    "placeholderNote": "Ini masih placeholder: materi aslinya menyusul."
+  },
+  "experience": {
+    "eyebrow": "Perjalanan",
+    "title": "Pengalaman",
+    "subtitle": "Kerja, kepemimpinan, kepanitiaan, pemateri, dan pengakuan.",
+    "filterLabel": "Filter pengalaman berdasarkan jenis",
+    "filters": { "all": "Semua", "work": "Kerja", "organization": "Organisasi", "committee": "Kepanitiaan", "speaking": "Pemateri", "achievement": "Prestasi" },
+    "types": { "work": "Kerja", "organization": "Organisasi", "committee": "Kepanitiaan", "speaking": "Pemateri", "achievement": "Prestasi" },
+    "present": "Sekarang",
+    "topic": "Topik",
+    "audience": "Peserta",
+    "visit": "Kunjungi situs",
+    "openDetails": "Lihat detail dan bukti",
+    "speakingTitle": "Pemateri & presentasi",
+    "speakingHint": "Seret atau geser untuk menjelajah",
+    "photos": "Foto"
+  },
+  "achievements": {
+    "eyebrow": "Pengakuan",
+    "title": "Prestasi & Sertifikasi",
+    "types": { "grant": "Hibah", "award": "Penghargaan", "competition": "Kompetisi", "certification": "Sertifikasi", "ip": "Kekayaan intelektual" },
+    "certificate": "Sertifikat",
+    "viewCertificate": "Lihat sertifikat"
+  },
+  "proof": {
+    "verified": "Terverifikasi",
+    "view": "Lihat bukti",
+    "role": "Peran saya",
+    "issuer": "Diterbitkan oleh",
+    "year": "Tahun",
+    "gallery": "Foto",
+    "close": "Tutup",
+    "dialogLabel": "Detail prestasi",
+    "viewPhoto": "Buka foto {n} dari {total}",
+    "domain": "di {domain}",
+    "platforms": { "instagram": "Instagram", "website": "Situs web", "pdf": "Dokumen PDF", "other": "Tautan eksternal" }
+  },
+  "gallery": {
+    "label": "Galeri gambar",
+    "prev": "Gambar sebelumnya",
+    "next": "Gambar berikutnya",
+    "goTo": "Ke gambar {n}",
+    "open": "Buka gambar {n} layar penuh",
+    "close": "Tutup tampilan layar penuh",
+    "counter": "{n} dari {total}"
+  },
+  "skills": {
+    "eyebrow": "Perkakas",
+    "title": "Keahlian",
+    "groups": { "erp": "ERP", "mobile": "Mobile", "web": "Web", "iot": "IoT", "devops": "DevOps & alat" }
+  },
+  "contributions": {
+    "eyebrow": "Kode",
+    "title": "Aktivitas GitHub",
+    "total": "kontribusi dalam setahun terakhir",
+    "less": "Sedikit",
+    "more": "Banyak",
+    "link": "Lihat profil GitHub",
+    "snapshot": "Cuplikan dari profil GitHub saya, 7 Nov 2026.",
+    "label": "Grafik kontribusi GitHub, bisa digeser",
+    "one": "kontribusi",
+    "many": "kontribusi",
+    "none": "Tidak ada kontribusi"
+  },
+  "testimonials": {
+    "eyebrow": "Kata mereka",
+    "title": "Testimoni",
+    "prev": "Testimoni sebelumnya",
+    "next": "Testimoni berikutnya",
+    "goTo": "Tampilkan testimoni {n}"
+  },
+  "contact": {
+    "eyebrow": "Kontak",
+    "title": "Mari berkolaborasi",
+    "subtitle": "Terbuka untuk magang, pekerjaan, dan proyek freelance. Silakan menyapa.",
+    "email": "Email",
+    "whatsapp": "WhatsApp",
+    "linkedin": "LinkedIn",
+    "github": "GitHub",
+    "instagram": "Instagram",
+    "copy": "Salin email",
+    "copied": "Email disalin ke papan klip",
+    "copyFailed": "Gagal menyalin. Silakan salin manual."
+  },
+  "footer": {
+    "rights": "Hak cipta dilindungi.",
+    "builtWith": "Dibuat dengan Astro & Motion",
+    "backToTop": "Kembali ke atas"
+  },
+  "months": ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"]
+}
