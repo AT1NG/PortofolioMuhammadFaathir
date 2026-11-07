@@ -47,6 +47,5 @@ export default defineConfig({
       filter: (page) => !page.includes('/tools/') && !page.includes('/404'),
     }),
   ],
-  image: { layout: 'constrained' },
   vite: { plugins: [tailwindcss()] },
 });

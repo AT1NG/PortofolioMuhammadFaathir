@@ -33,7 +33,6 @@ export function Pic({ img, alt, sizes = '100vw', eager = false, className = '', 
   return (
     <picture className="block h-full w-full">
       <source type="image/avif" srcSet={img.avif} sizes={sizes} />
-      <source type="image/webp" srcSet={img.webp} sizes={sizes} />
       <img src={img.src} alt={alt} width={img.w} height={img.h} loading={eager ? 'eager' : 'lazy'} decoding="async"
         fetchPriority={eager ? 'high' : undefined} className={`h-full w-full object-cover ${className}`} style={{ objectPosition: pos, ...style }} draggable={false} />
     </picture>
