@@ -143,5 +143,11 @@ const homeHref = lp(lang, '');
         'requestIdleCallback' in window ? requestIdleCallback(start, { timeout: 1500 }) : setTimeout(start, 400);
       }
     </script>
+    {import.meta.env.PROD && (
+      <>
+        {/* Cloudflare Web Analytics: cookieless visit counter. The token is public by design. */}
+        <script is:inline type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "9f7c7f9a62494f42ac83d959fe28ccd6"}'></script>
+      </>
+    )}
   </body>
 </html>
